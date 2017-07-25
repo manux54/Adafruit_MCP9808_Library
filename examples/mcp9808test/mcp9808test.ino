@@ -16,12 +16,25 @@ products from Adafruit!
 Adafruit_MCP9808 tempsensor = Adafruit_MCP9808();
 
 void setup() {
+
+#ifndef ESP32
   Serial.begin(9600);
+#else
+  Serial.begin(115200);
+#endif
+
   Serial.println("MCP9808 demo");
   
   // Make sure the sensor is found, you can also pass in a different i2c
   // address with tempsensor.begin(0x19) for example
+  // When connecting sensor to a ESP32 based development board, also pass the i2c pins.
+  // for example, if sensor's address is 0x18 and using SDA on pin 19 and SCL on pin 21
+  // initialize the sensor with tempsensor.begin(0x18, 19, 21);  
+#ifndef ESP32
   if (!tempsensor.begin()) {
+#else
+  if (!tempsensor.begin(MCP9808_I2CADDR_DEFAULT, 19, 21)) {
+#endif
     Serial.println("Couldn't find MCP9808!");
     while (1);
   }

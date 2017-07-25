@@ -46,9 +46,14 @@ Adafruit_MCP9808::Adafruit_MCP9808() {
     @brief  Setups the HW
 */
 /**************************************************************************/
-boolean Adafruit_MCP9808::begin(uint8_t addr) {
+boolean Adafruit_MCP9808::begin(uint8_t addr, int sda, int scl, uint32_t frequency) {
   _i2caddr = addr;
+  
+#ifndef ESP32
   Wire.begin();
+#else
+  Wire.begin(sda, scl, frequency);
+#endif
 
   if (read16(MCP9808_REG_MANUF_ID) != 0x0054) return false;
   if (read16(MCP9808_REG_DEVICE_ID) != 0x0400) return false;

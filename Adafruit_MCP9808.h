@@ -52,7 +52,7 @@
 class Adafruit_MCP9808 {
  public:
   Adafruit_MCP9808();
-  boolean begin(uint8_t a = MCP9808_I2CADDR_DEFAULT);  
+  boolean begin(uint8_t a = MCP9808_I2CADDR_DEFAULT, int sda=-1, int scl=-1, uint32_t frequency=100000);
   float readTempF( void );
   float readTempC( void );
   void shutdown_wake( uint8_t sw_ID );
